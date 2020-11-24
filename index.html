@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pig Latin Translator</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="icon" href="media/pig.png">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Inline+Text:wght@500&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+	
+</head>
+<body>
+
+<div class="page">
+	
+	<h1 class='header'><span><img src="media/pig 2.png"></span>Enter a Word or Phrase to Translate</h1>
+	<div class="fields">
+		<div class="english">
+			<fieldset>
+				<p class="label">English</p>
+				<textarea id="english" type="text" placeholder="Enter English text here"></textarea>
+			</fieldset>
+		</div>
+		<div class="pigLatin">
+			<fieldset>
+				<p class="label">Pig Latin</p>
+				<textarea id="pigLatin" placeholder="Pig Latin appears here" readonly></textarea>
+			</fieldset>
+		</div>
+	</div>
+	<div class="submit">
+			<button>Translate</button>
+	</div>
+
+	<div class="explanation">
+		<h2>What is Pig Latin?</h2>
+		<p>Pig Latin is a language code or game and is most often used by children who speak English.</p>
+
+		<h3>The usual rules are:</h3>
+		<ol>
+			<li>For words that begin with consonants, move the consonant to the end of the word and add "ay."</li>
+			<li>For words that begin with vowels, simply add "ay" to the end of the word.</li>
+		</ol>
+	</div>	
+</div>
+
+<footer>
+	<div>Icons made by 
+		<a href="https://www.flaticon.com/authors/wissawa-khamsriwath" title="Wissawa Khamsriwath">Wissawa Khamsriwath</a> 
+		from 
+		<a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+	</div>
+
+	<div>and by <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+</footer>
+	
+
+<script>
+
+	const english = document.querySelector('#english')
+	let pigLatin = document.querySelector("#pigLatin") 
+
+	english.addEventListener('change', updateValue)
+
+	english.addEventListener("keyup", (e)=>{
+		if(event.keyCode === 13){
+			updateValue(e)
+		}
+	})
+
+	function updateValue(e){
+		let string = e.target.value
+		let word = string.split(" ");
+		var newString = ""
+		word.forEach(element=>{
+			var chars = element.split('')
+			if(chars[0].match(/[/aeiou/]/i)){
+				var vowel = element + "-ay "
+				newString += vowel
+			} else if(chars[0].match(/[^aeiou]/i) && chars[1].match(/[^aeiou]/i)){
+				var consonantPair = element.slice(2) + "-" + chars[0] + chars[1] +"ay "
+				newString += consonantPair
+			} else {
+				var consonant = element.slice(1) + '-' + element.charAt("0") + 'ay '
+				newString += consonant
+			}
+			pigLatin.textContent = newString
+		})
+
+	}
+
+
+	document.querySelector("button").addEventListener('click', (e)=>{
+    	if(window.audio) {
+       		audio.pause();
+    	}
+    	window.audio = new Audio ('media/editedPig.mp3');
+    	window.audio.play();
+	})
+
+</script>
+
+</body>
+</html>
